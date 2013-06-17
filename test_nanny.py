@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import optparse
+
 from flask import Flask, request, url_for, make_response, redirect, render_template
 
 app = Flask(__name__)
@@ -19,4 +21,16 @@ def gate(target_url):
 
 
 if __name__ == '__main__':
-    app.run()
+    parser = optparse.OptionParser()
+    parser.add_option('-d', '--debug', action='store_true', dest='debug',
+            default=False,
+            help="enable Flask's debugging options [default: off]")
+    parser.add_option('-p', '--port', action='store', dest='port',
+            type='int', default=8080,
+            help='which port to listen on [default: %default]')
+    parser.add_option('-l', '--listen', action='store', dest='listen_addr',
+            default='127.0.0.1',
+            help='which address to listen on [default: %default]')
+    (opts, args) = parser.parse_args()
+    app.debug = opts.debug
+    app.run(host=opts.listen_addr, port=opts.port)
