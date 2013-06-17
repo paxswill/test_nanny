@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import optparse
 
-from flask import Flask, request, url_for, make_response, redirect, render_template
+from flask import Flask, request, url_for, redirect, render_template
 
 app = Flask(__name__)
 
