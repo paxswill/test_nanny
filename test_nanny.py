@@ -5,6 +5,16 @@ from flask import Flask, request, url_for, make_response, redirect, render_templ
 
 app = Flask(__name__)
 
+
+@app.route('/', methods=['GET', 'POST'])
+def landing():
+    if request.method == 'GET':
+        return render_template('landing.html')
+    elif request.method == 'POST':
+        return redirect(url_for('nanny', target_url=request.form['url']),
+                code=303)
+
+
 @app.route('/<path:target_url>', methods=['GET', 'POST'])
 def nanny(target_url):
     if request.method == 'GET':
