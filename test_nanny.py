@@ -17,6 +17,10 @@ def landing():
 
 @app.route('/<path:target_url>', methods=['GET', 'POST'])
 def nanny(target_url):
+    # Clean up the target to include a protocol
+    if not target_url.startswith('http'):
+        target_url = 'http://' + target_url
+    # Handle the request
     if request.method == 'GET':
         if request.cookies.get('accepted') is not None:
             return redirect(target_url)
@@ -24,6 +28,8 @@ def nanny(target_url):
             return render_template('nanny.html')
     elif request.method == 'POST':
         resp = redirect(target_url, code=303)
+        # get() must be used when testing existence in forms, otherwise Flask
+        # throws a HTTP 400
         if request.form.get('persist', None) is not None:
             # 86400 seconds is equal to 24 hours
             resp.set_cookie('accepted', 'true', max_age=86400)
