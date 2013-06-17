@@ -6,7 +6,7 @@ from flask import Flask, request, url_for, make_response, redirect, render_templ
 app = Flask(__name__)
 
 @app.route('/<path:target_url>', methods=['GET', 'POST'])
-def gate(target_url):
+def nanny(target_url):
     if request.method == 'GET':
         if request.cookies.get('accepted') is not None:
             return redirect(target_url)
